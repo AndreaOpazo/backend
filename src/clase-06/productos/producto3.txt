@@ -1,0 +1,5 @@
+{
+  "title": "The Office",
+  "price": 156.54,
+  "thumbnail": "foto3.jpg"
+}

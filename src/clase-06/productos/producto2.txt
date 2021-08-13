@@ -1,0 +1,5 @@
+{
+  "title": "Breaking Bad",
+  "price": 654.21,
+  "thumbnail": "foto2.jpg"
+}
