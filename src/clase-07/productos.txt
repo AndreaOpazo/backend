@@ -1,0 +1,20 @@
+[
+  {
+    "title":"Game of thrones",
+    "price":154.36,
+    "thumbnail":"foto1.jpg",
+    "id":1
+  },
+  {
+    "title":"Breaking Bad",
+    "price":685.65,
+    "thumbnail":"foto2.jpg",
+    "id":2
+  },
+  {
+    "title":"The office",
+    "price":325.32,
+    "thumbnail":"foto3.jpg",
+    "id":3
+  }
+]
