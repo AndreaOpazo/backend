@@ -17,7 +17,6 @@ class Utils {
     }
     product['id'] = id;
     data.push(product);
-    return product;
   };
 
   static updateProduct(product: Product, id: number) {

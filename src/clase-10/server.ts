@@ -36,15 +36,10 @@ app.set("views", "./views");
 app.use(express.static(`${__dirname}/public`));
 app.use('/api', router);
 
-/**
- * mediante la ruta establecida aqui podre ver mis productos cargados
- */
 app.get("/productos/vista", (_: Request, res: Response) => {
   const data = Utils.getAllProducts();
   res.render("main.hbs", { data });
 });
-
-////////////
 
 router.get('/productos/listar', (_: Request, res: Response) => {
   const products = Utils.getAllProducts();
@@ -57,8 +52,8 @@ router.get('/productos/listar/:id', (req: Request, res: Response) => {
 });
 
 router.post('/productos/guardar', (req: Request, res: Response) => {
-  const addedProduct = Utils.saveProduct(req.body);
-  res.send(`Producto agregado: ${JSON.stringify(addedProduct)}`);
+  Utils.saveProduct(req.body);
+  res.redirect('/');
 });
 
 router.put('/productos/actualizar/:id',(req: Request, res: Response) => {
