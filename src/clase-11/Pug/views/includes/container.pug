@@ -1,0 +1,20 @@
+- var classesTable = ['table', 'table-responsive', 'table-dark', 'table-sm', 'text-center', 'mt-2'];
+- var thValues = ['Nombre', 'Precio', 'Foto'];
+- var alert = 'alert';
+div.container
+  if (data.length)
+    table(class=classesTable)
+      thead
+        tr
+          each thVal in thValues
+            th(scope='col')= thVal
+      tbody
+        each product in data
+          tr
+            td(scope='row')= product.title
+            td= product.price
+            td
+              img(src=product.thumbnail)&attributes(style={ width: '50rem' })
+  else
+    div(class=alert class=['alert-danger', 'mt-2', 'text-center'])&attributes({ role: alert })
+      p No hay productos!
