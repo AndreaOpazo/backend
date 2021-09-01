@@ -1,0 +1,26 @@
+<section class="container">
+  <% if (data.length) { %>
+    <table class="table table-responsive table-dark table-sm text-center my-2">
+      <thead>
+        <tr>
+          <th scope="col">Nombre</th>
+          <th scope="col">Apellido</th>
+          <th scope="col">Edad</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% data.forEach((product) => { %>
+        <tr>
+          <td scope="row"><%= product.title %></td>
+          <td><%= product.price %></td>
+          <td><img src=<%= product.thumbnail %> width="50rem"></td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <div class="alert alert-danger container text-center my-2" role="alert">
+      No hay productos!
+    </div>
+  <% } %>
+</section>
