@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import handlebars from "express-handlebars";
 import http from "http";
 import path from "path";
 import Utils from "./utils";
@@ -14,7 +15,24 @@ server.listen(8080, () => {
   console.log("Server ON");
 });
 
-app.use(express.static("./public"));
+app.use(express.static(`${__dirname}/public`));
+
+const ENGINE_NAME = "hbs";
+
+app.engine(
+  ENGINE_NAME,
+  handlebars({
+    extname: `.${ENGINE_NAME}`, // extension de la plantilla
+    partialsDir: [
+      //  path to your partials
+      path.join(__dirname, 'views/partials'),
+    ],
+  })
+);
+
+app.set("view engine", ENGINE_NAME);
+app.set("views", "./views"); 
+app.use('/api', router);
 
 app.get("/", (_req: Request, res: Response) => {
   res.sendFile("index.html", { root: path.join(__dirname, './public') });
