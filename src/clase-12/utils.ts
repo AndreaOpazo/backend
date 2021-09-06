@@ -1,4 +1,4 @@
-import data, { Product } from './data';
+import data, { Product } from '../clase-10/data';
 
 class Utils {
   static getAllProducts() {
