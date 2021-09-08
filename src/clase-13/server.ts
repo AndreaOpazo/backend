@@ -3,8 +3,8 @@ import handlebars from "express-handlebars";
 import http from "http";
 import path from "path";
 import { Server }from "socket.io";
-import { Message } from "./data";
-import Utils from './utils';
+import { Message } from "./types";
+import Utils, { getActualDate } from './utils';
 
 const app = express();
 const router = express.Router();
@@ -50,6 +50,7 @@ ioServer.on("connection", (socket) => {
   socket.emit("messageList", messages);
   
   socket.on("new-message", (data) => {
+    data.date = getActualDate();
     messages.push(data);
     ioServer.sockets.emit("messageList", messages);
   });

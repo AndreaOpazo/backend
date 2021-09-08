@@ -36,8 +36,8 @@ socket.on("productList", (data) => {
 
 const formIsValid = () => {
   const emailUser = document.getElementById("email-user").value;
-  const message = document.getElementById("message").value;
-  return emailUser.trim() !== "" && message.trim() !== ""
+  const text = document.getElementById("text").value;
+  return emailUser.trim() !== "" && text.trim() !== ""
 };
 
 document.querySelector("#submit").addEventListener("click", (e) => {
@@ -52,17 +52,17 @@ const sendMessage = () => {
   }
   socket.emit("new-message", { 
     emailUser: document.getElementById("email-user").value,
-    message: document.getElementById("message").value
+    text: document.getElementById("text").value
   });
   return false;
 };
 
 socket.on("messageList", (data) => {
   document.getElementById("msg-core").innerHTML = data
-    .map(({emailUser, message}) => `
+    .map(({emailUser, text, date}) => `
       <div>
-        <strong style="color: blue;">${emailUser}</strong>
-        <em>${message}</em>
+        <b style="color: blue;">${emailUser}</b>
+        <span style="color: brown;">[${date}]<i style="color: green;"> : ${text}</i></span>
       </div>`
     )
     .join(" ");
@@ -71,5 +71,5 @@ socket.on("messageList", (data) => {
 
 const clearInputs = () => {
   document.getElementById("email-user").value = "";
-  document.getElementById("message").value = "";
+  document.getElementById("text").value = "";
 };

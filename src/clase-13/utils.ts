@@ -1,4 +1,5 @@
-import data, { Product } from './data';
+import data from './data';
+import { Product } from './types';
 
 class Utils {
   static getAllProducts() {
@@ -39,6 +40,24 @@ class Utils {
       return { error: 'Producto no encontrado.' };
     };
   };
+};
+
+export const getActualDate = () => {
+  const date = new Date();
+
+  let day: Number|String = date.getDate();
+  if (day < 10) day = `0${day}`;
+
+  let month: Number|String = date.getMonth() + 1;
+  if (month < 10) month = `0${month}`;
+
+  const year = date.getFullYear();
+
+  let hours = (date.getHours() < 10 ? '0' : '') + date.getHours();
+  let minutes = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+  let seconds = (date.getSeconds() < 10 ? '0' : '' ) + date.getSeconds();
+  
+  return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
 };
 
 export default Utils;
