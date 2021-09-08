@@ -2,20 +2,21 @@ import express, { Request, Response } from "express";
 import handlebars from "express-handlebars";
 import http from "http";
 import path from "path";
-import Utils from "./utils";
-import { Server }from "socket.io"
-import { Product } from "./data";
+import { Server }from "socket.io";
+import Utils from './utils';
 
 const app = express();
+const router = express.Router();
 const server = http.createServer(app);
 const ioServer = new Server(server);
-const router = express.Router();
 
 server.listen(8080, () => {
   console.log("Server ON");
 });
 
-app.use(express.static(`${__dirname}/public`));
+server.on("error", () => {
+  console.log("Error iniciando el server");
+});
 
 const ENGINE_NAME = "hbs";
 
@@ -23,39 +24,32 @@ app.engine(
   ENGINE_NAME,
   handlebars({
     extname: `.${ENGINE_NAME}`, // extension de la plantilla
-    partialsDir: [
-      //  path to your partials
-      path.join(__dirname, 'views/partials'),
-    ],
+    layoutsDir: `${__dirname}/views/layouts`, // ruta de plantilla principal
+    defaultLayout: "index.hbs", // plantilla principal
   })
 );
 
 app.set("view engine", ENGINE_NAME);
 app.set("views", "./views"); 
+
+// se indica la ruta que tendra los archivos estaticos. 
+// en public tenemos esos archivos
+app.use(express.static("public"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use('/api', router);
 
 app.get("/", (_req: Request, res: Response) => {
   res.sendFile("index.html", { root: path.join(__dirname, './public') });
 });
 
-const productos: Product[] = [];
 ioServer.on("connection", (socket) => {
-  ioServer.sockets.emit("productList", productos);
-
-  socket.on("input", (data: Product) => {
-    if (data.title === '' || data.price === 0 || data.thumbnail === '') {
-      socket.emit('notificacion', 'Todos los campos son requeridos!')
-    } else {
-      productos.push(data);
-      socket.emit("clearFields")
-      ioServer.sockets.emit("productList", productos);
-    }
-  })
+  socket.emit("productList", Utils.getAllProducts());
 });
 
 app.get("/productos/vista", (_: Request, res: Response) => {
   const data = Utils.getAllProducts();
-  res.render("partials/table.hbs", { data });
+  res.render("main.hbs", { data });
 });
 
 router.get('/productos/listar', (_: Request, res: Response) => {
@@ -70,6 +64,8 @@ router.get('/productos/listar/:id', (req: Request, res: Response) => {
 
 router.post('/productos/guardar', (req: Request, res: Response) => {
   Utils.saveProduct(req.body);
+  const products = Utils.getAllProducts();
+  ioServer.sockets.emit("productList", products);
   res.redirect('/');
 });
 

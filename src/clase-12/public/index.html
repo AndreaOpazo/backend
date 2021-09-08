@@ -20,21 +20,21 @@
   <div class="row">
     <div class="col d-grid gap-2 my-2 col-2 mx-auto text-center bg-dark text-white rounded-3">
       <h2 class="">Ingrese Producto</h2>
-      <form>
+      <form action="/api/productos/guardar" method="POST">
         <div class="mb-3">
           <label for="title" class="form-label">Nombre</label>
-          <input id="title" type="text" name="title" />
+          <input id="title" type="text" name="title" required />
         </div>
         <div class="mb-3">
           <label for="price" class="form-label">Precio</label>
-          <input id="price" type="number" name="price" />
+          <input id="price" type="number" name="price" required />
         </div>
         <div class="mb-3">
           <label for="thumbnail" class="form-label">Foto</label>
-          <input id="thumbnail" type="text" name="thumbnail" />
+          <input id="thumbnail" type="text" name="thumbnail" required />
         </div>
         <div class="d-grid my-3 col-4 mx-auto">
-          <button id="save" class="btn btn-success btn-sm">Guardar</button>
+          <button class="btn btn-success btn-sm">Guardar</button>
         </div>
       </form>
     </div>
